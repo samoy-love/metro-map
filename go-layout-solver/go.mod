@@ -1,3 +1,3 @@
 module metro_layout_solver
 
-go 1.25
+go 1.26.10
