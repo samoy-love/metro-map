@@ -30,7 +30,10 @@ describe('лимиты журнала', () => {
   /** Больше двадцати записей никто читать не станет, а место они съедят. */
   it('хранит не больше двадцати записей', () => {
     for (let i = 0; i < MAX_ENTRIES + 15; i += 1) {
-      recordError('error', new Error(`беда ${i}`))
+      const error = new Error(`беда ${i}`)
+      // Здесь проверяется число записей; размер стека не должен включать другой лимит.
+      error.stack = `Error: беда ${i}`
+      recordError('error', error)
     }
 
     expect(stored()).toHaveLength(MAX_ENTRIES)
@@ -38,7 +41,10 @@ describe('лимиты журнала', () => {
 
   it('вытесняются самые старые', () => {
     for (let i = 0; i < MAX_ENTRIES + 5; i += 1) {
-      recordError('error', new Error(`беда ${i}`))
+      const error = new Error(`беда ${i}`)
+      // Здесь проверяется число записей; размер стека не должен включать другой лимит.
+      error.stack = `Error: беда ${i}`
+      recordError('error', error)
     }
 
     const messages = readErrorLog().map((e) => e.message)
